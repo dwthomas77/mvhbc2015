@@ -1,0 +1,55 @@
+/*---- COLORS ------*/
+/*                  */
+/*---- Base   ------*/
+$base-soft: #F2EEEB;
+$base: #734827;
+$base-strong: #382313;
+$base-alt: #D3C0B2;
+/*---- Secondary ---*/
+$secondary-soft: #F1EED9;
+$secondary-strong: #F7EDBF;
+/*---- Text --------*/
+$text: $base-strong;
+$text-contrast: $base-soft;
+
+/*-- Breakpoint Sizes --*/
+$break-small: 520px;
+$break-large: 1200px;
+
+/*---- Padding -----*/
+$padding-medium: 20px;
+
+//== Scaffolding
+//
+//## Settings for some of the most global styles.
+
+//** Background color for `<body>`.
+$body-bg:               $base !default;
+//** Global text color on `<body>`.
+$text-color:            $text !default;
+
+//** Global textual link color.
+$link-color:            #3570A3 !default;
+//** Link hover color set via `darken()` function.
+$link-hover-color:      darken($link-color, 15%) !default;
+//** Link hover decoration.
+$link-hover-decoration: underline !default;
+
+$navbar-default-color:             $text-contrast !default;
+$navbar-default-bg:                $base-strong !default;
+$navbar-default-border:            darken($navbar-default-bg, 6.5%) !default;
+
+// Navbar links
+$navbar-default-link-color:                $text-contrast !default;
+$navbar-default-link-hover-color:          $text !default;
+$navbar-default-link-hover-bg:             $base-soft !default;
+$navbar-default-link-active-color:         $text !default;
+$navbar-default-link-active-bg:            $base-soft !default;
+$navbar-default-link-disabled-color:       #ccc !default;
+$navbar-default-link-disabled-bg:          transparent !default;
+
+// Navbar brand label
+$navbar-default-brand-color:               $text-contrast !default;
+$navbar-default-brand-hover-color:         darken($navbar-default-brand-color, 10%) !default;
+$navbar-default-brand-hover-bg:            transparent !default;
+

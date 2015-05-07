@@ -1,0 +1,111 @@
+{% extends "mvhbc/scaffolding.html" %}
+{% load staticfiles %}
+{% load mvhbc_tags %}
+{% block content %}
+
+<div class="comp-welcome container-fluid">
+    <div class="comp-accountHeader clearfix">
+        <div class="pull-left">MVHBC Homebrew Competition - June 20th, 2015</div>
+        <div class="pull-right">Logged in as: {{ user.username }} | <a href="{% url "logout" %}">Logout</a></div>
+    </div>
+
+    <h4>Welcome {{ user.first_name}} {{ user.last_name }}!</h4>
+    <br>
+
+    <div class="bg-info">{{ infoMsg }}</div>
+
+    <br>
+    <div class="row">
+        <!-- USER PROFILE -->
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title pull-left">User Profile</h3>
+                    <button type="button" class="btn btn-primary btn-xs pull-right" data-toggle="collapse" data-target="#collapseUser">Edit</button>
+                </div>
+                <div id="collapseUser" class="panel-collapse collapse" role="tabpanel">
+                    <div class="panel-body"> 
+                        {% for field in userForm %}
+                        <div class="form-group">
+                            {{ field.label_tag }}
+                            {{ field|addcss:"form-control input-sm" }}
+                            <div class="text-danger bg-danger">{{ field.errors }}</div>
+                        </div>
+                        {% endfor %}
+                        <button type="button" class="btn btn-primary btn-xs pull-right">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ADDRESS INFO -->
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title pull-left">Address</h3>
+                    <button type="button" class="btn btn-primary btn-xs pull-right" data-toggle="collapse" data-target="#collapseAddress">Edit</button>
+                </div>
+                <div id="collapseAddress" class="panel-collapse collapse" role="tabpanel">
+                    <div class="panel-body">
+                        <form id="addressForm" class="" method="post" action="{% url "update_address" %}">
+                            {% csrf_token %}
+                            {% for field in addressForm %}
+                            <div class="form-group">
+                                {{ field.label_tag }}
+                                {{ field|addcss:"form-control input-sm" }}
+                                <div class="text-danger bg-danger">{{ field.errors }}</div>
+                            </div>
+                            {% endfor %}
+                            <input type="submit" class="btn btn-primary btn-xs pull-right" value="Update">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- JUDGE PREFERENCES -->
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title pull-left">Judge/Steward Preferences</h3>
+                    <button type="button" class="btn btn-primary btn-xs pull-right" data-toggle="collapse" data-target="#collapseJudge">Edit</button>
+                </div>
+                <div id="collapseJudge" class="panel-collapse collapse" role="tabpanel">
+                    <div class="panel-body">
+                        <form id="addressForm" class="" method="post" action="{% url "update_judge" %}">
+                            {% csrf_token %}
+                            {% for field in judgeForm %}
+                            <div class="form-group">
+                                {{ field.label_tag }}
+                                {{ field|addcss:"form-control input-sm" }}
+                                <div class="text-danger bg-danger">{{ field.errors }}</div>
+                            </div>
+                            {% endfor %}
+                            <input type="submit" class="btn btn-primary btn-xs pull-right" value="Update">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="submissionContainer row">
+
+        <div class="submissionCard col-md-4">
+            <div class="submission-header">Add New Submission</div>
+            {% for field in submissionForm %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field|addcss:"form-control input-sm" }}
+                <div class="text-danger bg-danger">{{ field.errors }}</div>
+            </div>
+            {% endfor %}
+            <input type="submit" class="btn btn-primary btn-xs pull-right" value="Add">
+        </div>
+    </div>
+
+
+
+</div>
+
+
+{% endblock content %}

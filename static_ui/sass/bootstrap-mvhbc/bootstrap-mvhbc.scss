@@ -1,0 +1,137 @@
+@import 'vars';
+@import 'bootstrap';
+
+// Modules
+@import 'competition';
+
+/*----  BOOTSTRAP DECLARATIONS ----*/
+.nav > li > a {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+ul.nav.navbar-nav {
+    padding-left: 5%;
+}
+
+/*  BASE                */
+body {
+    background-image: url('../img/wood004.jpg');
+}
+header {
+    background-color: white;    
+    img {
+        display: block;
+        margin: 0px auto;
+        @media screen and (max-width: $break-small) {
+            max-height: 100px;
+        }
+    }
+}
+
+ul {
+    list-style: none;
+}
+
+h1, h2, h3, h4, h5 {
+    margin: 0px;
+}
+
+/*---- LAYOUT ------*/
+.view {
+    margin-bottom: 20px;
+}
+footer {
+    background-color: $base-strong;
+    color: $base-soft;
+    font-size: 12px;
+    padding: 5px;
+    a {
+        color: $base-soft;
+        &:hover {
+            color: $base-soft;
+            text-decoration: underline;
+        }
+    }
+    @media screen and (max-width: $break-small) {
+        font-size: 10px;
+    }
+
+}
+
+/*---- Photos ------*/
+.photos {
+    border: medium $base-strong solid;
+    // Desktop Widescreen
+    //@media screen and (min-width: $break-large) {
+    //    border: medium $base-strong solid;
+    //}
+}
+/*---- Updates --------*/
+.updates {
+    width: 100%;
+    padding: $padding-medium;
+    background-color: $base-soft;
+}
+/*---- Introduction Text ----*/
+.intro {
+    border: 1px $base-strong solid;
+    border-radius: 5px;
+    padding: 15px;
+    font-style: italic;
+    //background-color: $base;
+    color: $base-strong;
+}
+.whatsNew {
+
+    h3 {
+        background-color: $base-strong;
+        color: $base-soft;
+        padding: 5px;
+        text-align: center;
+    }
+
+}
+.whatsNew-content {
+    margin-top: 20px;
+    padding: 0px 10%;
+    text-align: center;
+}
+
+/*---- Calendar -------*/
+.calendar {
+
+    margin-top: $padding-medium;
+    border: medium $base-strong solid;
+    background-color: white;
+    padding: 15px;
+    iframe {
+        height: 300px;
+        width: 100%;
+    }
+}
+/*---- Sponsors -------*/
+.sponsors {
+
+}
+
+.sponsor-tile {
+    display: inline-block;
+
+    vertical-align: top;
+    margin-right: 3%;
+    img {
+        max-height: 250px;
+    }
+
+}
+
+.sponsors-title {
+    border-bottom: thin black solid;
+    width: 80%;
+}
+
+/*---- Links ----*/
+.resource-links {
+    background-color: $base-soft;
+    padding: 20px;
+}

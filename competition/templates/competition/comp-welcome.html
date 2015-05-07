@@ -1,0 +1,79 @@
+{% extends "mvhbc/scaffolding.html" %}
+{% load staticfiles %}
+{% load mvhbc_tags %}
+{% block content %}
+
+
+
+<div class="row">
+    <div class="col-md-8">
+
+        <div class="comp-welcome">
+            <h2 class="text-center">2015 Merrimack Valley</h2>
+            <h1 class="text-center">Homebrew Club Competition</h1>
+<br><br>
+
+            <h1 class="text-center">June 20th, 2015</h3>
+            <br><br>
+            <h3 class="text-center">Judges and Stewards Needed</h3>
+            <br><p class="text-center">We are looking for Judges and Stewards to help run the competition. All applicants welcome.  This is a great opportunity to participate in a sanctioned competition if you've never seen one, or to get more BJCP judging experience.</p>
+            <br>
+            <p class="text-center">Please fill out the <a href="{% url 'register' %}">JUDGE REGISTRATION FORM</a> if you are interested.</p>
+            <br><br>
+            <h3 class="text-center">Registration</h3>
+            <br><p>Full Registration will be available begining in May.  You can pre-register now and use our online forms to submit entries at that time.</p>
+
+
+        </div>
+
+    </div>
+    <div class="col-md-4">
+
+        <div class="comp-registration">
+            <div class="comp-registration-title">
+                <h3>Judge and Steward Quick Registration Form</h3>
+                <h5>(Brewer Pre-Registration for Competition)</h5>
+            </div>
+            <!-- Registration Form -->
+            <form id="registrationForm" class="registration-form" method="post" action="{% url "compWelcome" %}">
+
+                {% csrf_token %} 
+
+                {% for field in userForm %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field|addcss:"form-control input-sm" }}
+                    <div class="text-danger bg-danger">{{ field.errors }}</div>
+                </div>
+                {% endfor %}
+
+
+<!-- 
+                <label for="id_username" class="control-label  requiredField">Username</label>
+                <input id="id_username" type="text" class="textinput textInput form-control" name="username" maxlength="30">
+                <p id="hint_id_username" class="help-block">Required. 30 characters or fewer. Letters, numbers and @/./+/-/_ characters</p>
+
+                <label for="id_password" class="control-label  requiredField">Password</label>
+                <input id="id_password" type="password" class="textinput textInput form-control" name="password"> 
+
+                <label for="id_first_name" class="control-label  requiredField">First name</label>
+                <input id="id_first_name" type="text" class="textinput textInput form-control" name="first_name" maxlength="100">
+
+                <label for="id_last_name" class="control-label  requiredField">Last name</label>
+                <input id="id_last_name" type="text" class="textinput textInput form-control" name="last_name" maxlength="100"> 
+
+                <label for="id_email" class="control-label  requiredField">Email</label>
+                <input id="id_email" type="text" class="textinput textInput form-control" name="email" maxlength="75"> -->
+
+                <div class="clearfix form-submitBtn">
+                    <div class="pull-right">
+                        <input class="btn btn-primary" type="submit" value="Submit">
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

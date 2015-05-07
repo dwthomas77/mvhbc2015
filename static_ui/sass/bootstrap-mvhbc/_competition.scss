@@ -1,0 +1,160 @@
+
+
+.comp-welcome, .competition-content {
+    background-color: $base-soft;
+    padding: 25px;
+}
+
+.comp-registration{
+    background-color: $base-soft;
+    padding: 25px;
+}
+
+.comp-registration-title {
+    padding-bottom: 20px;
+}
+
+.comp-accountHeader {
+    background-color: $base-alt;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.l-results {
+    background-color: $base-soft;
+
+    thead {
+        background-color: $base-alt;
+
+        &.thead-legend {
+            background-color: $base-strong;
+            color: $text-contrast;
+        }
+    }
+}
+
+.results-header {
+    padding: 20px;
+}
+
+.resultsCategory {
+    background-color: $base-alt;
+}
+
+/*---- Sponsors ----*/
+.compSponsors {
+    min-width: calc((270px + 5%) * 3);
+    margin: 0px auto;
+    background-color: white;
+    padding-top: 20px;
+    text-align: center;
+    .compSponsors-title {
+        text-align: center;
+        border-bottom: 2px $base-strong solid;
+        width: 80%;
+        margin: 0px auto;
+    }
+
+    @media screen and (max-width: $break-small) {
+        min-width: 100%;
+        .compSponsors-title {
+            padding: 0px 20px;
+        }
+    }
+}
+
+.compSponsors-copy {
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.compSponsors-tile {
+    display: inline-block;
+    height: 270px;
+    width: 270px;
+    margin-right: 5%;
+    vertical-align: top;
+    padding: 20px;
+    background-color: white;
+    overflow: hidden;
+    
+    .compSponsors-img {
+        height: 250px;
+        width: 250px;
+        overflow:hidden;
+        border-radius: 5px;
+
+        img {
+            max-height: 250px;
+            max-width: 250px;
+            border: 2px transparent solid;
+            &:hover {
+                border: 2px $link-color solid;
+            }
+        } 
+    }
+    // Mobile Styles
+    @media screen and (max-width: $break-small) {
+        width: 100%;
+        padding: 0px;
+        margin-right: auto;
+        margin-left: auto;
+
+        .compSponsors-img {
+            width: 100%;
+
+            img {
+                max-width: auto;
+                width: auto;
+                margin: 0px auto;
+            }
+        }
+    }
+}
+
+/*---- Forms ----*/
+.form-submitBtn {
+    margin-top: 12px;
+}
+
+.registration-form, .comp-form-container {
+    border: thin $base-strong solid;
+    border-radius: 5px;
+    padding: 20px;
+
+    h3 {
+        padding: 15px 0px 5px 0px;
+    }
+
+
+}
+
+.login-form {
+    max-width: 60%;
+    margin: 0px auto;
+     // Mobile Styles
+    @media screen and (max-width: $break-small) {
+        max-width: 100%;
+    }
+}
+
+/*---- Bootstrap Forms ----*/
+.form-group {
+    margin-bottom: 5px;
+}
+
+/*---- Submissions ----*/
+.submissionCard {
+    background-color: #D3C0B2;
+    border-radius: 5px;
+}
+
+.submission-header {
+    background-color: $base-strong;
+    color: $base-soft;
+    margin: 10px 0px;
+    padding: 10px;  
+}
+
+

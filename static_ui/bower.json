@@ -1,0 +1,19 @@
+{
+  "name": "static_ui",
+  "version": "0.0.0",
+  "authors": [
+    "David Thomas <dthomas@sapient.com>"
+  ],
+  "description": "MVHBC Static UI",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-sass": "~3.3.4"
+  }
+}
