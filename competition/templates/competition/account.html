@@ -12,7 +12,9 @@
     <h4>Welcome {{ user.first_name}} {{ user.last_name }}!</h4>
     <br>
 
+    {% if infoMsg %}
     <div class="bg-info">{{ infoMsg }}</div>
+    {% endif %}
 
     <br>
     <div class="row">
@@ -88,24 +90,47 @@
 
     </div>
 
-    <div class="submissionContainer row">
+    <div class="submissionContainer">
 
-        <div class="submissionCard col-md-4">
+        <div class="submissionCard">
             <div class="submission-header">Add New Submission</div>
-            {% for field in submissionForm %}
-            <div class="form-group">
-                {{ field.label_tag }}
-                {{ field|addcss:"form-control input-sm" }}
-                <div class="text-danger bg-danger">{{ field.errors }}</div>
-            </div>
-            {% endfor %}
-            <input type="submit" class="btn btn-primary btn-xs pull-right" value="Add">
+            <form id="addressForm" class="" method="post" action="{% url "add_submission" %}">
+                {% csrf_token %}
+                {% for field in submissionForm %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field|addcss:"form-control input-sm" }}
+                    <div class="text-danger bg-danger">{{ field.errors }}</div>
+                </div>
+                {% endfor %}
+                <div class="submissionCardButton"><input id="submissionAddNew" type="submit" class="btn btn-sm btn-primary pull-right" value="Add"  
+                disabled="disabled"></div>
+            </form>
         </div>
-    </div>
 
 
+    {% if entries %}
+    {% for s in entries %}
+
+        <div class="submissionCard">
+            <form  class="" method="post" action="/competition/account/submission/remove/{{ s.pk }}">
+                {% csrf_token %}
+                <div class="submission-header">Entry {{ s.competition_id }}</div>
+                <div>Name: <br><strong>{{ s.name }}</strong></div>
+                <div>Style: <br><strong>{{ s.style }}</strong></div>
+                <div>Comments: <br><strong>{{ s.comments }}</strong></div>
+                <div class="submissionCardButton clearfix">
+                    <button class="btn pull-left" disabled="true">Paid</button>
+                    <input type="submit" class="btn btn-sm btn-primary pull-right" value="Delete">
+                </div>
+            </form>
+        </div>
+
+    {% endfor %}
+    {% endif %}
+
+   
 
 </div>
-
 
 {% endblock content %}

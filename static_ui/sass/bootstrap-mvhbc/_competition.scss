@@ -146,8 +146,15 @@
 
 /*---- Submissions ----*/
 .submissionCard {
+    width: calc(33% - 10px);
+    display: inline-block;
+    position: relative;
     background-color: #D3C0B2;
     border-radius: 5px;
+    height: 300px;
+    overflow: hidden;
+    padding: 0px 15px;
+    margin-right: 10px;
 }
 
 .submission-header {
@@ -155,6 +162,15 @@
     color: $base-soft;
     margin: 10px 0px;
     padding: 10px;  
+}
+
+.submissionCardButton {
+    position: absolute;
+    bottom: 10px;
+    width: calc(100% - 30px);
+    input {
+        //padding: 0px 15px;
+    }
 }
 
 

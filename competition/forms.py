@@ -48,7 +48,7 @@ class SubmissionForm(ModelForm):
     class Meta:
         model = Submission
         widgets = {
-          'comments': forms.Textarea(attrs={'rows':2}),
+          'comments': forms.Textarea(attrs={'rows':2})
         }
         fields = ('style', 'name', 'comments')
 

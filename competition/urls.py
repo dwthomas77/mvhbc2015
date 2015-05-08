@@ -22,5 +22,7 @@ urlpatterns = patterns('',
     url(r'^account/profile/$', views.update_profile, name="update_profile"),
     url(r'^account/judge/$', views.update_judge, name="update_judge"),
     # DELETE
+    url(r'^account/submission/remove/(?P<s_pk>\d+)$', views.delete_submission, name="delete_submission"),
     # ADD
+    url(r'^account/submission/$', views.add_submission, name="add_submission"),
 )

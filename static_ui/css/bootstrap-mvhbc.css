@@ -5259,14 +5259,26 @@ button.close {
 
 /*---- Submissions ----*/
 .submissionCard {
+  width: calc(33% - 10px);
+  display: inline-block;
+  position: relative;
   background-color: #D3C0B2;
-  border-radius: 5px; }
+  border-radius: 5px;
+  height: 300px;
+  overflow: hidden;
+  padding: 0px 15px;
+  margin-right: 10px; }
 
 .submission-header {
   background-color: #382313;
   color: #F2EEEB;
   margin: 10px 0px;
   padding: 10px; }
+
+.submissionCardButton {
+  position: absolute;
+  bottom: 10px;
+  width: calc(100% - 30px); }
 
 /*----  BOOTSTRAP DECLARATIONS ----*/
 .nav > li > a {
@@ -5275,6 +5287,10 @@ button.close {
 
 ul.nav.navbar-nav {
   padding-left: 5%; }
+
+.bg-info {
+  padding: 15px;
+  font-size: 16px; }
 
 /*  BASE                */
 body {

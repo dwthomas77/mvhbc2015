@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response, render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from competition.forms import UserForm, JudgeUserForm, ProfileForm, AddressForm, ProfileJudgeForm, SubmissionForm
-from competition.models import UserProfile, Address
+from competition.models import UserProfile, Address, Submission
 
 def process_login(request):
     if not request.user.is_authenticated():
@@ -202,6 +202,7 @@ def account(request):
         return redirect('login')
     else:
         profile = request.user.userprofile
+        # build forms
         userForm = UserForm(instance=request.user)
         addressForm = AddressForm(instance=profile.address)
         submissionForm = SubmissionForm()
@@ -212,11 +213,14 @@ def account(request):
              'bjcp_registration' : profile.bjcp_registration,
 
         })
+        # query user submissions
+        submission_query = Submission.objects.filter(brewer = profile)
         return render(request, "competition/account.html", {
             'userForm': userForm,
             'addressForm': addressForm,
             'judgeForm': judgeForm,
-            'submissionForm': submissionForm
+            'submissionForm': submissionForm,
+            'entries': submission_query
         })
 
 # Account Page
@@ -344,6 +348,91 @@ def update_judge(request):
     else:
         return redirect('account')
 
+## Add
+def add_submission(request):
+    if not request.user.is_authenticated():
+        return redirect('login')
+    else:
+        if request.method == 'POST' and request.user.userprofile:
+            profile = request.user.userprofile
+            submission_data = {
+                'style': request.POST['style'],
+                'name': request.POST['name'],
+                'comments': request.POST['comments']
+            }
+            submissionForm = SubmissionForm(submission_data)
+            if submissionForm.is_valid():
+                s = submissionForm.save(commit=False)
+                s.brewer = profile
+                s.save()
+                styleId = str(s.style.style_id)
+                submissionId = str(s.pk)
+                s.competition_id = styleId + submissionId
+                s.save()
+                submissionForm = SubmissionForm()
+                msg = "Submission successfully saved"
+            else:
+                msg = "There was a problem with your submission entry"
+            #build forms
+            userForm = UserForm(instance=request.user)
+            addressForm = AddressForm(instance=profile.address)
+            judgeForm = ProfileJudgeForm({
+                'judge_preference' : profile.judge_preference,
+                'qualification' : profile.qualification,
+                'judge_comments' : profile.judge_comments,
+                'bjcp_registration' : profile.bjcp_registration
+            })
+            # query user submissions
+            submission_query = Submission.objects.filter(brewer = profile)
+            return render(request, "competition/account.html", {
+                'userForm': userForm,
+                'addressForm': addressForm,
+                'judgeForm': judgeForm,
+                'submissionForm': submissionForm,
+                'entries': submission_query,
+                'infoMsg'   : msg
+            })
+        else:
+            return redirect('login')
+
+## Delete
+def delete_submission(request, s_pk):
+    if not request.user.is_authenticated():
+        return redirect('register')
+    else:
+        # identify submission object and current user
+        submission = get_object_or_404(Submission, pk=s_pk)
+        profile = UserProfile.objects.get(pk=submission.brewer.pk)
+
+        ## redirect if user is not owner of this submission or submission is not valid
+        if (submission) and (request.user.userprofile != profile):
+            return redirect('account')
+        else:
+            if request.method == 'POST':
+                # delete submission
+                submission.delete()
+                #build forms
+                userForm = UserForm(instance=request.user)
+                addressForm = AddressForm(instance=profile.address)
+                submissionForm = SubmissionForm()
+                judgeForm = ProfileJudgeForm({
+                    'judge_preference' : profile.judge_preference,
+                    'qualification' : profile.qualification,
+                    'judge_comments' : profile.judge_comments,
+                    'bjcp_registration' : profile.bjcp_registration
+                })
+                # query user submissions
+                submission_query = Submission.objects.filter(brewer = profile)
+                return render(request, "competition/account.html", {
+                    'userForm': userForm,
+                    'addressForm': addressForm,
+                    'judgeForm': judgeForm,
+                    'submissionForm': submissionForm,
+                    'entries': submission_query,
+                    'infoMsg'   : "Submission successfully deleted."
+            })
+            else:
+                redirect('account')
 
 def results_2014(request):
     return render(request, "competition/results_2014.html")
