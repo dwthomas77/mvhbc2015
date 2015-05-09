@@ -277,7 +277,6 @@ def update_address(request):
         return redirect('login')
     elif request.method == 'POST' and request.user.userprofile:
         profile = request.user.userprofile
-        msg = "nothing happened"
         # build address form
         addressData = {
             'street_1': request.POST['street_1'],
@@ -297,25 +296,69 @@ def update_address(request):
             a.zipcode = request.POST['zipcode']
             a.save()
             msg = "Address Successfully Updated"
+        else:
+            msg = "There was a problem with updating your address"
         # build other forms
         userForm = UserForm(instance=request.user)
+        submissionForm = SubmissionForm()
         judgeForm = ProfileJudgeForm({
             'judge_preference' : profile.judge_preference,
             'qualification' : profile.qualification,
             'judge_comments' : profile.judge_comments,
             'bjcp_registration' : profile.bjcp_registration
         })
+        # query user submissions
+        submission_query = Submission.objects.filter(brewer = profile)
         return render(request, "competition/account.html", {
             'userForm': userForm,
             'addressForm': addressForm,
             'judgeForm': judgeForm,
+            'submissionForm': submissionForm,
+            'entries': submission_query,
             'infoMsg'   : msg
         })
     else:
         return redirect('account')
 
 def update_profile(request):
-    return redirect('account')
+    if not request.user.is_authenticated():
+        return redirect('login')
+    elif request.method == 'POST' and request.user.userprofile:
+        profile = request.user.userprofile
+        # build user form
+        userForm = UserForm(request.POST, instance=request.user)
+        if userForm.is_valid():
+            # save address
+            request.user.username = request.POST['username']
+            request.user.password = request.POST['password']
+            request.user.first_name = request.POST['first_name']
+            request.user.last_name = request.POST['last_name']
+            request.user.email = request.POST['email']
+            request.user.save()
+            msg = "User Profile Successfully Updated"
+        else:
+            msg = "There was a problem updating your User Profile"
+        # build other forms
+        addressForm = AddressForm(instance=profile.address)
+        submissionForm = SubmissionForm()
+        judgeForm = ProfileJudgeForm({
+            'judge_preference' : profile.judge_preference,
+            'qualification' : profile.qualification,
+            'judge_comments' : profile.judge_comments,
+            'bjcp_registration' : profile.bjcp_registration
+        })
+        # query user submissions
+        submission_query = Submission.objects.filter(brewer = profile)
+        return render(request, "competition/account.html", {
+            'userForm': userForm,
+            'addressForm': addressForm,
+            'judgeForm': judgeForm,
+            'submissionForm': submissionForm,
+            'entries': submission_query,
+            'infoMsg'   : msg
+        })
+    else:
+        return redirect('account')
 
 def update_judge(request):
     if not request.user.is_authenticated():
@@ -434,6 +477,10 @@ def delete_submission(request, s_pk):
             else:
                 redirect('account')
 
+def print_label(request, e_pk):
+    e = get_object_or_404(Submission, pk=e_pk)
+    return render(request, "competition/print_label.html", {'entry':e})
+
 def results_2014(request):
     return render(request, "competition/results_2014.html")
 
@@ -446,6 +493,11 @@ def results_2012(request):
 def sponsors(request):
     return render(request, "competition/sponsors.html")
 
+def locations(request):
+    return render(request, "competition/competition-locations.html")
+
+def info(request):
+    return render(request, "competition/competition-info.html")
 
 
 

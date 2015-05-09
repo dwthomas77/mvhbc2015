@@ -146,31 +146,64 @@
 
 /*---- Submissions ----*/
 .submissionCard {
-    width: calc(33% - 10px);
+    width: calc(50% - 15px);
     display: inline-block;
     position: relative;
-    background-color: #D3C0B2;
     border-radius: 5px;
+    border: 2px $base-strong solid;
     height: 300px;
     overflow: hidden;
-    padding: 0px 15px;
     margin-right: 10px;
 }
 
 .submission-header {
     background-color: $base-strong;
     color: $base-soft;
-    margin: 10px 0px;
     padding: 10px;  
 }
 
 .submissionCardButton {
     position: absolute;
-    bottom: 10px;
+    bottom: 5px;
     width: calc(100% - 30px);
     input {
         //padding: 0px 15px;
     }
 }
 
+form {
+    
+    label{
+        font-style: italic;
+    }
 
+}
+
+.submission-form{
+    padding: 0px 20px;
+    label {
+        font-weight: normal;
+    }
+    &.static-form {
+        label {
+            margin-top: 10px;
+        }
+    }
+    &.edit-form {
+        padding-top: 5px
+    }
+}
+
+
+.form-title {
+    border-bottom: 2px $base-strong solid;
+    margin-bottom: 20px;
+}
+
+.comp-stackedRight {
+    margin-right: 5px;
+}
+
+.comp-rules {
+    list-style: disc;
+}

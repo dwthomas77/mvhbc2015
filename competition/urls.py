@@ -15,6 +15,9 @@ urlpatterns = patterns('',
     url(r'^results-2013/$', views.results_2013, name='results_2013'),
     url(r'^results-2012/$', views.results_2012, name='results_2012'),
     url(r'^sponsors/$', views.sponsors, name='sponsors'),
+    url(r'^info/$', views.info, name="info"),
+    url(r'^locations/$', views.locations, name="locations"),
+    url(r'^account/print/(?P<e_pk>\d+)', views.print_label, name="print_label"),
     # form submission urls
     #
     # UPDATE

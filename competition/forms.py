@@ -41,6 +41,9 @@ class AddressForm(ModelForm):
 class ProfileJudgeForm(ModelForm):
     class Meta:
         model = UserProfile
+        widgets = {
+          'judge_comments': forms.Textarea(attrs={'rows':3})
+        }
         fields = ('judge_preference', 'qualification', 'bjcp_registration', 'judge_comments')
 
 # Submission Form
