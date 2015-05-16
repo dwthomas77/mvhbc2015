@@ -19,7 +19,7 @@ urlpatterns = patterns('',
     url(r'^locations/$', views.locations, name="locations"),
     url(r'^account/print/(?P<e_pk>\d+)', views.print_label, name="print_label"),
     # form submission urls
-    #
+    url(r'^address/$', views.address_page, name="address_page"),
     # UPDATE
     url(r'^account/address/$', views.update_address, name="update_address"),
     url(r'^account/profile/$', views.update_profile, name="update_profile"),

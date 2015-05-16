@@ -154,6 +154,10 @@
     height: 300px;
     overflow: hidden;
     margin-right: 10px;
+    @media screen and (max-width: $break-small) {
+        width: 100%;
+    }
+
 }
 
 .submission-header {
@@ -206,4 +210,13 @@ form {
 
 .comp-rules {
     list-style: disc;
+}
+
+.userBar {
+    @media screen and (max-width: $break-small) {
+        a {
+            display: block;
+            width: 100%;
+        }
+    }
 }

@@ -55,6 +55,14 @@ class SubmissionForm(ModelForm):
         }
         fields = ('style', 'name', 'comments')
 
+# AccountUserProfile
+class AccountUserProfileForm(forms.Form):
+    first_name = forms.CharField(label='First Name', max_length=200)
+    last_name = forms.CharField(label='Last Name', max_length=200)
+    email = forms.EmailField(label='Email', max_length=200)
+    club = forms.CharField(label='Club', max_length=200, required=False)
+    aha_id = forms.CharField(label='AHA Id', max_length=200, required=False)
+
 
 
 

@@ -70,6 +70,9 @@ class Submission(models.Model):
     place = models.CharField(max_length=200, blank=True)
     brewer = models.ForeignKey(UserProfile, blank=True)
     style = models.ForeignKey(Style, blank=True)
+    def __unicode__(self):
+        name = self.competition_id + ' - ' + self.brewer.user.first_name + ' ' + self.brewer.user.last_name
+        return name
 
 # Table
 class JudgingTable(models.Model):

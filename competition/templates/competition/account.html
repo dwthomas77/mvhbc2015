@@ -13,7 +13,7 @@
         <div class="pull-right">Logged in as: {{ user.username }} | <a href="{% url "logout" %}">Logout</a></div>
     </div>
     <br><br>
-    <div class="clearfix">
+    <div class="clearfix userBar">
         <h4 class="pull-left">{{ user.first_name}} {{ user.last_name }}</h4>
         <a href="{% url 'locations' %}" class="btn btn-info btn-sm pull-right comp-stackedRight">Drop-off Locations</a>
         <a href="{% url 'info' %}" class="btn btn-info btn-sm pull-right comp-stackedRight">Competition Information</a>
@@ -81,7 +81,7 @@
 <div class="well">
             <h3>Submission Rules</h3><br>
             <ul class="comp-rules">
-            <li>Entries must be dropped off or arrive shipped by May 18th</li>
+            <li>Entries must be dropped off or arrive shipped by Saturday, June 13th 2015</li>
             <li>Two (2) bottles per entry, 10 to 16 ounces, any style. No labels or silk-screening, is allowed. Raised lettering on bottles is strongly discouraged, but bottles with generic raised lettering will be accepted. Caps must be plain or blacked out.</li>
             <li>Entry fee is $6.00 if paid by check and $6.50 if paid by PayPal per entry.</li>
             <li>If paid by Paypal please include your Entry IDs in the field provided.</li>
@@ -97,7 +97,7 @@
         <h3 class="form-title">User Information</h3>
         <p>Update your profile information and set your Judge or Steward preferences to indicate you are interested in volunteering to officiate at the competition.  All users who set Judge preferences will be contacted about volunteering at the competition.</p>
 
-            <!-- USER PROFILE 
+            <!-- USER PROFILE -->
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <h3 class="panel-title pull-left">User Profile</h3>
@@ -118,7 +118,7 @@
                         </form>
                     </div>
                 </div>
-            </div>-->
+            </div>
 
             <!-- ADDRESS INFO -->
             <div class="panel panel-default">

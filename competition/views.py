@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
-from competition.forms import UserForm, JudgeUserForm, ProfileForm, AddressForm, ProfileJudgeForm, SubmissionForm
+from competition.forms import UserForm, JudgeUserForm, ProfileForm, AccountUserProfileForm, AddressForm, ProfileJudgeForm, SubmissionForm
 from competition.models import UserProfile, Address, Submission
 
 def process_login(request):
@@ -36,7 +36,7 @@ def compWelcome(request):
                 else:
                     return render(request, "competition/registration.html", {'userForm': userForm})
             else:
-                return render(request, "competition/registration-error.html", {'userForm': userForm})
+                return redirect('register')
         else:
             return render(request, 'competition/comp-welcome.html', {
                 'userForm' : userForm
@@ -95,7 +95,7 @@ def register(request):
         addressForm = AddressForm(addressData)
         profileForm = ProfileForm(profileData)
         pJudgeForm = ProfileJudgeForm(profileJudgeData)
-        if userForm.is_valid():
+        if userForm.is_valid() and addressForm.is_valid():
             u = userForm.save()
             a = addressForm.save()
             profile = UserProfile(
@@ -200,10 +200,21 @@ def judge_register(request):
 def account(request):
     if not request.user.is_authenticated():
         return redirect('login')
+    elif not hasattr(request.user, 'userprofile'):
+        return redirect('login')
+    elif not hasattr(request.user.userprofile.address, 'street_1'):
+        return redirect('address_page')
     else:
         profile = request.user.userprofile
         # build forms
-        userForm = UserForm(instance=request.user)
+        userData = {
+            'first_name': request.user.first_name,
+            'last_name': request.user.last_name,
+            'email': request.user.email,
+            'club': profile.club,
+            'aha_id': profile.aha_id
+        }
+        userForm = AccountUserProfileForm(userData)
         addressForm = AddressForm(instance=profile.address)
         submissionForm = SubmissionForm()
         judgeForm = ProfileJudgeForm({
@@ -299,7 +310,14 @@ def update_address(request):
         else:
             msg = "There was a problem with updating your address"
         # build other forms
-        userForm = UserForm(instance=request.user)
+        userData = {
+            'first_name': request.user.first_name,
+            'last_name': request.user.last_name,
+            'email': request.user.email,
+            'club': profile.club,
+            'aha_id': profile.aha_id
+        }
+        userForm = AccountUserProfileForm(userData)
         submissionForm = SubmissionForm()
         judgeForm = ProfileJudgeForm({
             'judge_preference' : profile.judge_preference,
@@ -326,15 +344,16 @@ def update_profile(request):
     elif request.method == 'POST' and request.user.userprofile:
         profile = request.user.userprofile
         # build user form
-        userForm = UserForm(request.POST, instance=request.user)
+        userForm = AccountUserProfileForm(request.POST)
         if userForm.is_valid():
-            # save address
-            request.user.username = request.POST['username']
-            request.user.password = request.POST['password']
+            # save form fields
             request.user.first_name = request.POST['first_name']
             request.user.last_name = request.POST['last_name']
             request.user.email = request.POST['email']
             request.user.save()
+            profile.club = request.POST['club']
+            profile.aha_id = request.POST['aha_id']
+            profile.save()
             msg = "User Profile Successfully Updated"
         else:
             msg = "There was a problem updating your User Profile"
@@ -374,18 +393,30 @@ def update_judge(request):
         # save changes
         profile.save();
         # build other forms
-        userForm = UserForm(instance=request.user)
+        userData = {
+            'first_name': request.user.first_name,
+            'last_name': request.user.last_name,
+            'email': request.user.email,
+            'club': profile.club,
+            'aha_id': profile.aha_id
+        }
+        userForm = AccountUserProfileForm(userData)
         addressForm = AddressForm(instance=profile.address)
+        submissionForm = SubmissionForm()
         judgeForm = ProfileJudgeForm({
             'judge_preference' : profile.judge_preference,
             'qualification' : profile.qualification,
             'judge_comments' : profile.judge_comments,
             'bjcp_registration' : profile.bjcp_registration
         })
+        # query user submissions
+        submission_query = Submission.objects.filter(brewer = profile)
         return render(request, "competition/account.html", {
             'userForm': userForm,
             'addressForm': addressForm,
             'judgeForm': judgeForm,
+            'submissionForm': submissionForm,
+            'entries': submission_query,
             'infoMsg'   : msg
         })
     else:
@@ -417,7 +448,14 @@ def add_submission(request):
             else:
                 msg = "There was a problem with your submission entry"
             #build forms
-            userForm = UserForm(instance=request.user)
+            userData = {
+                'first_name': request.user.first_name,
+                'last_name': request.user.last_name,
+                'email': request.user.email,
+                'club': profile.club,
+                'aha_id': profile.aha_id
+            }
+            userForm = AccountUserProfileForm(userData)
             addressForm = AddressForm(instance=profile.address)
             judgeForm = ProfileJudgeForm({
                 'judge_preference' : profile.judge_preference,
@@ -455,7 +493,14 @@ def delete_submission(request, s_pk):
                 # delete submission
                 submission.delete()
                 #build forms
-                userForm = UserForm(instance=request.user)
+                userData = {
+                    'first_name': request.user.first_name,
+                    'last_name': request.user.last_name,
+                    'email': request.user.email,
+                    'club': profile.club,
+                    'aha_id': profile.aha_id
+                }
+                userForm = AccountUserProfileForm(userData)
                 addressForm = AddressForm(instance=profile.address)
                 submissionForm = SubmissionForm()
                 judgeForm = ProfileJudgeForm({
@@ -476,6 +521,37 @@ def delete_submission(request, s_pk):
             })
             else:
                 redirect('account')
+
+## Address form for converting Judges to Users
+def address_page(request):
+    if not request.user.is_authenticated():
+        return redirect('register')
+    elif request.method == 'POST' and request.user.userprofile:
+        profile = request.user.userprofile
+        # build address form
+        addressData = {
+            'street_1': request.POST['street_1'],
+            'street_2': request.POST['street_2'],
+            'city': request.POST['city'],
+            'state': request.POST['state'],
+            'zipcode': request.POST['zipcode']
+        }
+        addressForm = AddressForm(addressData)
+        if addressForm.is_valid():
+            # save address
+            a = addressForm.save()
+            profile.address = a
+            profile.save()
+            return redirect('account')
+        else:
+            return render(request, "competition/address_form.html", {
+                'addressForm': addressForm
+            })
+    else:
+        addressForm = AddressForm()
+        return render(request, "competition/address_form.html", {
+            'addressForm': addressForm
+        })
 
 def print_label(request, e_pk):
     e = get_object_or_404(Submission, pk=e_pk)

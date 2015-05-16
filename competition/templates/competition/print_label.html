@@ -29,4 +29,17 @@
         <tr><td>Comments: </td><td id="infoId" class="entryLine">{{entry.comments}}</td></tr>       
     </table>
 </div>
+<br><br>
+<div class="label">
+    <div class="titlebar">
+        <img src="{% static "img/mvhbcLabelLogo.jpg" %}" height="75" width="154">MVHBC Homebrew Competition 2015
+    </div>
+    <br>
+    <table class="table table-striped">
+        <tr><td>ID:</td><td id="infoStyle" class="entryLine">{{entry.competition_id}}</td></tr>
+                <tr><td>Category: </td><td id="infoName" class="entryLine">{{entry.style.category}}</td></tr>
+                <tr><td>Style: </td><td id="infoName" class="entryLine">{{entry.style.style_id}} {{entry.style.name}}</td></tr>
+        <tr><td>Comments: </td><td id="infoId" class="entryLine">{{entry.comments}}</td></tr>       
+    </table>
+</div>
 </body>
